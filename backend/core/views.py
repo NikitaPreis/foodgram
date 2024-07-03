@@ -5,7 +5,6 @@ from django.core.exceptions import ValidationError
 from django.db.models import Sum
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
-
 from django_short_url.views import get_surl
 
 from foodgram.settings import BASE_DIR
