@@ -1,9 +1,6 @@
 name: Main Foodgram workflow
 
-on:
-  push:
-    branches:
-      - main
+on: push
 
 jobs:
   tests:
@@ -127,6 +124,9 @@ jobs:
         source: "docker-compose.production.yml"
         target: "foodgram"
     - name: Executing remote ssh commands to deploy
+      env:
+        SECRET_KEY: ${{ secrets.SECRET_KEY }}
+        ALLOWED_HOSTS: ${{ secrets.ALLOWED_HOSTS }}
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.HOST }}
