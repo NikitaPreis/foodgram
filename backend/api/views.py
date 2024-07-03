@@ -110,7 +110,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
     def get_link(self, request, pk=None):
         get_recipe_or_404(pk)
         if request.method == 'GET':
-            short_link = get_short_link(request)
+            short_link = get_short_link(request, pk)
             return (Response(
                 {'short-link': short_link},
                 status=status.HTTP_200_OK))
