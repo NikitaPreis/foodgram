@@ -7,13 +7,13 @@ load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = os.getenv('SECRET_KEY', '')
-# SECRET_KEY = 'django-insecure-w5r5p0y%z+taa&3(p$v)emac$%j&l1g&q$u++tqh73b4ntztln'
+# SECRET_KEY = os.getenv('SECRET_KEY', '')
+SECRET_KEY = 'django-insecure-w5r5p0y%z+taa&3(p$v)emac$%j&l1g&q$u++tqh73b4ntztln'
 
 DEBUG = True  # False
 
-# ALLOWED_HOSTS = ['158.160.87.128', '127.0.0.1', 'localhost', 'foodgramrecipes.zapto.org']
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(', ')
+ALLOWED_HOSTS = ['158.160.87.128', '127.0.0.1', 'localhost', 'foodgramrecipes.zapto.org']
+# ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(', ')
 
 
 INSTALLED_APPS = [
