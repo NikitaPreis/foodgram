@@ -7,13 +7,13 @@ load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# SECRET_KEY = os.getenv('SECRET_KEY', '')
-SECRET_KEY = 'django-insecure-w5r5p0y%z+taa&3(p$v)emac$%j&l1g&q$u++tqh73b4ntztln'
+SECRET_KEY = os.getenv('SECRET_KEY', '')
+# SECRET_KEY = 'django-insecure-w5r5p0y%z+taa&3(p$v)emac$%j&l1g&q$u++tqh73b4ntztln'
 
-DEBUG = True
+DEBUG = True  # False
 
-ALLOWED_HOSTS = ['158.160.87.128', '127.0.0.1', 'localhost', 'foodgramrecipes.zapto.org']
-# ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(', ')
+# ALLOWED_HOSTS = ['158.160.87.128', '127.0.0.1', 'localhost', 'foodgramrecipes.zapto.org']
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(', ')
 
 
 INSTALLED_APPS = [
@@ -83,7 +83,6 @@ DATABASES = {
 #     }
 # }
 
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -122,11 +121,6 @@ STATIC_ROOT = BASE_DIR / 'collected_static'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = '/media'
 
-# STATIC_URL = '/static/'
-
-# MEDIA_URL = '/media/'
-# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'users.FoodgramUser'
@@ -143,20 +137,6 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'core.pagination.PageNumberLimitPagination',
     'PAGE_SIZE': 6,
 }
-
-
-# DJOSER = {
-#     'LOGIN_FIELD': 'email',
-#     'HIDE_USERS': False,
-#     'PERMISSIONS': {
-#         'user': ['rest_framework.permissions.IsAuthenticated'],
-#         'user_list': ['rest_framework.permissions.AllowAny'],
-#     },
-#     'SERIALIZERS': {
-#         'user': 'api.serializers.UserSerializer',
-#         # 'current_user': 'api.serializers.UserSerializer',
-#     }
-# }
 
 DJOSER = {
     'LOGIN_FIELD': 'email',

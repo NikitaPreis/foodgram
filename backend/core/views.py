@@ -6,6 +6,8 @@ from django.db.models import Sum
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 
+from django_short_url.views import get_surl
+
 from foodgram.settings import BASE_DIR
 from recipes.models import (FavoriteList, Follow, Ingredient, Recipe,
                             RecipeIngredient, ShoppingCart)
@@ -163,8 +165,6 @@ def download_shopping_cart_main(request):
 
     file_name = make_shopping_cart_download_file_name(request.user)
 
-    # rel_path = f'static_dev/files/{file_name}'
-
     path_to_file = get_shopping_cart_path_to_file(file_name)
     create_shopping_cart_file_txt(path_to_file,
                                   ingredients_from_shopping_list)
@@ -183,3 +183,9 @@ def exclude_duplicate(collection, error_message):
             collection_set.add(element.get('id'))
     if len(collection_set) != len(collection):
         raise ValidationError(error_message)
+
+
+def get_short_link(request):
+    absolute_url = request.build_absolute_uri()[0: -9]
+    surl = get_surl(absolute_url)
+    return request.META['HTTP_HOST'] + surl

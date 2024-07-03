@@ -16,7 +16,8 @@ from core.views import (add_recipe_to_favorite_list,
                         delete_recipe_from_shopping_cart,
                         download_shopping_cart_main,
                         get_recipe_in_favorite_list,
-                        get_recipe_in_shopping_cart, get_recipe_or_404)
+                        get_recipe_in_shopping_cart, get_recipe_or_404,
+                        get_short_link)
 from recipes.models import Ingredient, Recipe, Tag
 from users.serializers import RecipeShortReadSerializer
 
@@ -105,22 +106,14 @@ class RecipeViewSet(viewsets.ModelViewSet):
                 {'error': const.RECIPE_DOSNT_EXIST_IN_SHOPPING_CART},
                 status=status.HTTP_400_BAD_REQUEST)
 
-    # Снйчас не возвращает домен
     @action(methods=['get'], detail=True,
             url_path='get-link', url_name='get-link')
     def get_link(self, request, pk=None):
         get_recipe_or_404(pk)
         if request.method == 'GET':
-            absolute_url = request.build_absolute_uri()[0: -9]
-            # заменить на const в past строке
-            surl = get_surl(absolute_url)
-            # добавить домен в .env
-            # short_link = os.getenv('DOMAIN') + surl
-            # import os
-            # from pathlib import Path
-            # load_dotenv()
+            short_link = get_short_link(request)
             return (Response(
-                {'short-link': surl},  # short_link
+                {'short-link': short_link},
                 status=status.HTTP_200_OK))
         return Response(
             {'error': const.RECIPE_GET_LINK_ERROR_MESSAGE},
