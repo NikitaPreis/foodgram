@@ -73,7 +73,7 @@ class Recipe(NameBaseModel):
         default_related_name = 'recipe'
         verbose_name = 'объект «Рецепт»'
         verbose_name_plural = '«Рецепты»'
-        ordering = ('-pub_date','name')
+        ordering = ('-pub_date', 'name')
         default_permissions = (
             'add', 'change', 'delete', 'view'
         )
