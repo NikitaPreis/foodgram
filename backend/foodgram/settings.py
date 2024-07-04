@@ -15,7 +15,6 @@ DEBUG = True  # False
 ALLOWED_HOSTS = ['158.160.87.128', '127.0.0.1', 'localhost', 'foodgramrecipes.zapto.org']
 # ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(', ')
 
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
