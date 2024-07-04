@@ -95,7 +95,6 @@ class UserProfileAPIView(views.APIView):
     permission_classes = (permissions.IsAuthenticated,)
 
     def get(self, request):
-        # User.objects.all()
         user = request.user
         serializer = UserSerializer(user, context={'request': request})
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -117,8 +116,3 @@ class UserAvatarAPIView(views.APIView):
         user = request.user
         user.avatar.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
-
-
-class UserProfileViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer

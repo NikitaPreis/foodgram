@@ -185,7 +185,6 @@ def exclude_duplicate(collection, error_message):
 
 
 def get_short_link(request, pk):
-    # recipe_url = request.META['HTTP_HOST'] + request.path[4: -9]
     recipe_url = request.META['HTTP_REFERER']
     surl = get_surl(recipe_url)
     return request.META['HTTP_HOST'] + surl

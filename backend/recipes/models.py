@@ -119,9 +119,8 @@ class RecipeTag(models.Model):
 
 class ShoppingCart(models.Model):
     user = models.ForeignKey(
-        User,  # Вынести в BaseModel
+        User,
         on_delete=models.CASCADE,
-        # verbose_name=
         related_name='shopping_recipe'
     )
     recipe = models.ForeignKey(
