@@ -1,5 +1,5 @@
 from django.contrib.auth import get_user_model
-from rest_framework import permissions, status, views, viewsets
+from rest_framework import permissions, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
@@ -75,11 +75,12 @@ class UserViewSet(viewsets.ModelViewSet):
                 {'error': const.SUBSCRIBE_DELETE_ERROR_MESSAGE},
                 status=status.HTTP_400_BAD_REQUEST)
 
-
-class SetPasswordAPIView(views.APIView):
-    permission_classes = (permissions.IsAuthenticated,)
-
-    def post(self, request):
+    @action(
+        methods=['post'],
+        detail=False,
+        permission_classes=(permissions.IsAuthenticated,)
+    )
+    def set_password(self, request):
         serializer = SetPasswordSerializer(
             data=request.data,
             context={'request': request})
@@ -90,29 +91,36 @@ class SetPasswordAPIView(views.APIView):
             return Response(status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    @action(
+        methods=['put', 'delete'],
+        detail=False,
+        permission_classes=(permissions.IsAuthenticated,),
+        url_path='me/avatar'
+    )
+    def avatar(self, request):
+        if request.method == 'PUT':
+            user = request.user
+            serializer = UserAvatarSerializer(
+                user,
+                data=request.data
+            )
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data,
+                                status=status.HTTP_201_CREATED)
+            return Response(serializer.errors,
+                            status=status.HTTP_400_BAD_REQUEST)
+        if request.method == 'DELETE':
+            user = request.user
+            user.avatar.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
 
-class UserProfileAPIView(views.APIView):
-    permission_classes = (permissions.IsAuthenticated,)
-
-    def get(self, request):
+    @action(
+        methods=['get'],
+        detail=False,
+        permission_classes=(permissions.IsAuthenticated,)
+    )
+    def me(self, request):
         user = request.user
         serializer = UserSerializer(user, context={'request': request})
         return Response(serializer.data, status=status.HTTP_200_OK)
-
-
-class UserAvatarAPIView(views.APIView):
-    permission_classes = (permissions.IsAuthenticated,)
-
-    def put(self, request):
-        user = request.user
-        serializer = UserAvatarSerializer(user,
-                                          data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def delete(self, request):
-        user = request.user
-        user.avatar.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)

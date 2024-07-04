@@ -64,12 +64,16 @@ class Recipe(NameBaseModel):
         default=None,
         verbose_name='Фотография'
     )
+    pub_date = models.DateTimeField(
+        'Дата публикации',
+        auto_now_add=True
+    )
 
     class Meta:
         default_related_name = 'recipe'
         verbose_name = 'объект «Рецепт»'
         verbose_name_plural = '«Рецепты»'
-        ordering = ('name', 'cooking_time')
+        ordering = ('-pub_date','name')
         default_permissions = (
             'add', 'change', 'delete', 'view'
         )
