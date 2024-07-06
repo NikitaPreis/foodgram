@@ -3,7 +3,7 @@ from django.core.validators import MinValueValidator
 from django.db import models
 
 from core import constants as const
-from core.models import NameBaseModel
+from core.models import NameBaseModel, UserRecipeBaseModel
 from recipes.validators import validate_cooking_time
 
 User = get_user_model()
@@ -38,7 +38,7 @@ class Ingredient(NameBaseModel):
 
 class Recipe(NameBaseModel):
     text = models.TextField('Описание')
-    cooking_time = models.SmallIntegerField(
+    cooking_time = models.PositiveSmallIntegerField(
         validators=[validate_cooking_time],
         verbose_name='Время приготовления в минутах',
     )
@@ -107,7 +107,7 @@ class RecipeIngredient(models.Model):
         return f'{self.amount}'
 
 
-class RecipeTag(models.Model):
+class RecipeTag(UserRecipeBaseModel):
     recipe = models.ForeignKey(Recipe,
                                on_delete=models.SET_NULL,
                                null=True,
@@ -121,31 +121,16 @@ class RecipeTag(models.Model):
         return f'{self.recipe} {self.tag}'
 
 
-class ShoppingCart(models.Model):
-    user = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-        related_name='shopping_recipe'
-    )
-    recipe = models.ForeignKey(
-        Recipe,
-        on_delete=models.CASCADE,
-        related_name='shopping_recipe',
-        null=True
-    )
+class ShoppingCart(UserRecipeBaseModel):
+
+    class Meta:
+        default_related_name = 'shopping_recipe'
 
 
-class FavoriteList(models.Model):
-    author = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-        related_name='favorite_recipe'
-    )
-    recipe = models.ForeignKey(
-        Recipe,
-        on_delete=models.CASCADE,
-        related_name='favorite_recipe'
-    )
+class FavoriteList(UserRecipeBaseModel):
+
+    class Meta:
+        default_related_name = 'favorite_recipe'
 
 
 class Follow(models.Model):

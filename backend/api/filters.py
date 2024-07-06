@@ -11,7 +11,8 @@ class RecipeFilter(FilterSet):
     author = NumberFilter(field_name='author__id',
                           lookup_expr='icontains')
     tags = CharFilter(field_name='tags__slug',
-                      lookup_expr='icontains')
+                      method='get_tags',
+                      distinct=True)
     is_favorited = BooleanFilter(method='get_is_favorited')
     is_in_shopping_cart = BooleanFilter(method='get_is_in_shopping_cart')
 
@@ -19,6 +20,12 @@ class RecipeFilter(FilterSet):
         model = Recipe
         fields = ('is_favorited', 'is_in_shopping_cart',
                   'author', 'tags')
+
+    def get_tags(self, queryset, name, value,):
+        tags_slug_list = self.request.GET.getlist('tags')
+        for slug in tags_slug_list:
+            queryset = queryset.filter(tags__slug=slug)
+        return queryset
 
     def get_is_favorited(self, queryset, name, value):
         if not self.request.user.is_authenticated:

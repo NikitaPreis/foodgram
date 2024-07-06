@@ -26,6 +26,11 @@ class FoodgramUser(AbstractUser):
             )
         },
     )
+    second_name = models.CharField(
+        max_length=const.FOODGRAM_EMAIL_MAXLENGTH,
+        null=True,
+        verbose_name='Отчество'
+    )
     role = models.CharField(
         'Роль пользователя',
         max_length=const.ROLE_MAX_LENGTH,
@@ -38,6 +43,9 @@ class FoodgramUser(AbstractUser):
         default=None,
         blank=True
     )
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ('first_name', 'last_name',
+                       'second_name', 'username')
 
     class Meta:
         verbose_name = 'пользователь'
