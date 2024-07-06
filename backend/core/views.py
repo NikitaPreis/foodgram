@@ -160,10 +160,8 @@ def open_shopping_cart_file_txt_binary_mode(path_to_file):
 
 def download_shopping_cart_main(request):
     ingredients_from_shopping_list = get_ingredients_from_shopping_cart(
-        request.user)
-
+        user=request.user)
     file_name = make_shopping_cart_download_file_name(request.user)
-
     path_to_file = get_shopping_cart_path_to_file(file_name)
     create_shopping_cart_file_txt(path_to_file,
                                   ingredients_from_shopping_list)
