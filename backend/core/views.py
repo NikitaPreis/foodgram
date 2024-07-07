@@ -137,9 +137,18 @@ def make_shopping_cart_download_file_name(user):
     return file_name_request_user_username + txt_extension
 
 
+def create_path_to_file_if_not_exist(abs_file_path):
+    return os.makedirs(abs_file_path, exist_ok=True)
+
+
 def get_shopping_cart_path_to_file(file_name):
-    rel_path = f'static_dev/files/{file_name}'
-    return os.path.join(BASE_DIR, rel_path)
+    rel_path = 'static_dev/files/'
+    abs_file_path = os.path.join(BASE_DIR, rel_path)
+    print(abs_file_path)
+    create_path_to_file_if_not_exist(abs_file_path)
+    abs_file_path = os.path.join(abs_file_path, file_name)
+    print(abs_file_path)
+    return abs_file_path
 
 
 def create_shopping_cart_file_txt(path_to_file,
