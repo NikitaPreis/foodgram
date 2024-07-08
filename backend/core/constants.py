@@ -32,3 +32,4 @@ USER_ROLES_CHOICES = (
     (USER, 'пользователь'),
 )
 ROLE_MAX_LENGTH = max(len(role[0]) for role in USER_ROLES_CHOICES)
+SETTINGS_DEBUG='True'
