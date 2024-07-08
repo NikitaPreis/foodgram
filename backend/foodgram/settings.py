@@ -7,10 +7,10 @@ load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = bool(os.getenv('SECRET_KEY', '*'))
+SECRET_KEY = os.getenv('SECRET_KEY', '*') == 'True'
 
-# DEBUG = os.getenv('DEBUG', '*')
-DEBUG = False
+DEBUG = os.getenv('DEBUG', '*')
+# DEBUG = False
 
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '*').split(', ')
 
